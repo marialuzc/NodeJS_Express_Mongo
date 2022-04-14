@@ -18,9 +18,23 @@ const schema = Joi.object({
         .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'edu', 'co'] } })
 });
 
-// Endpoint de tipo GET para el recurso Cursos
+/* // Endpoint de tipo GET para el recurso Cursos
 ruta.get('/',(req, res) => {
     res.json('Respuesta a petición GET de USUARIOS funcionando correctamente');
+}); */
+
+//Endpoint de tipo GET para el recurso usuarios. Lista todos los usuarios
+ruta.get('/',(req, res) => {
+    let resultado = listarUsuarioActivos();
+    resultado.then(usuarios => {
+        res.json(usuarios)
+    }).catch(err => {
+        res.status(400).json(
+            {
+                err
+            }
+        )
+    })
 });
 
 // Endpoint de tipo POST para el recurso USUARIOS
@@ -113,6 +127,12 @@ async function desactivarUsuario(email){
         }
     }, {new: true});
     return usuario;
+}
+
+//Función asíncrona para listar todos los usuarios activos
+async function listarUsuarioActivos(){
+    let usuarios = await Usuario.find({"estado": true});
+    return usuarios;
 }
 
 module.exports = ruta;
