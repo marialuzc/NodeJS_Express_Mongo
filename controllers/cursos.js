@@ -4,7 +4,7 @@ const ruta = express.Router();
 
 // Endpoint de tipo GET para el recurso Cursos
 ruta.get('/',(req, res) => {
-    let resultado = logic.listarCursosActivos();
+    let resultado = listarCursosActivos();
     resultado.then(cursos => {
         res.json(cursos);
     }).catch(err => {
@@ -14,7 +14,7 @@ ruta.get('/',(req, res) => {
 
 // Endpoint de tipo POST para el recurso CURSOS
 ruta.post('/', (req, res) => {
-    let resultado = logic.crearCurso(req.body);
+    let resultado = crearCurso(req.body);
 
     resultado.then(curso => {
         res.json({
@@ -29,7 +29,7 @@ ruta.post('/', (req, res) => {
 
 // Endpoint de tipo PUT para el recurso CURSOS
 ruta.put('/:id', (req, res) => {
-    let resultado = logic.actualizarCurso(req.params.id, req.body);
+    let resultado = actualizarCurso(req.params.id, req.body);
     resultado.then(curso => {
         res.json(curso)
     }).catch(err => {
@@ -39,7 +39,7 @@ ruta.put('/:id', (req, res) => {
 
 // Endpoint de tipo DELETE para el recurso CURSOS
 ruta.delete('/:id', (req, res) => {
-    let resultado = logic.desactivarCurso(req.params.id);
+    let resultado = desactivarCurso(req.params.id);
     resultado.then(curso => {
         res.json(curso);
     }).catch(err => {
