@@ -68,6 +68,21 @@ ruta.put('/:email', (req, res) => {
     }    
 });
 
+//Endpoint de tipo DELETE para el recurso USUARIOS
+ruta.delete('/:email', (req, res) => {
+    let resultado = desactivarUsuario(req.params.email);
+    resultado.then(valor => {
+        res.json({
+            usuario: valor
+        })
+    }).catch(err => {
+        res.status(400).json({
+            err
+        })
+    });
+});
+
+
 
 // Función asíncrona para crear un objeto de tipo usuario
 async function crearUsuario(body){
@@ -85,6 +100,16 @@ async function actualizarUsuario(email, body){
         $set: {
             nombre: body.nombre,
             password: body.password
+        }
+    }, {new: true});
+    return usuario;
+}
+
+//Función asíncrona para inactivar un usuario
+async function desactivarUsuario(email){
+    let usuario = await Usuario.findOneAndUpdate({"email": email}, {
+        $set: {
+            estado: false
         }
     }, {new: true});
     return usuario;
